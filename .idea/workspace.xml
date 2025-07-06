@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b3ed66b6-eec3-4d25-ad45-e028af9b3311" name="Changes" comment="editing">
+      <change afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "danielttttttt"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/danielttttttt/Boring-Task-Manager.git",
+    "accountId": "b9d01b58-b255-47c0-a287-5e12c74fd367"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2zVLP90sptsDn675BAaau1w8dHu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/code/boring"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b3ed66b6-eec3-4d25-ad45-e028af9b3311" name="Changes" comment="" />
+      <created>1751811266524</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751811266524</updated>
+    </task>
+    <task id="LOCAL-00001" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751812673222</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1751812673223</updated>
+    </task>
+    <task id="LOCAL-00002" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751812685596</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1751812685596</updated>
+    </task>
+    <task id="LOCAL-00003" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751812703076</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1751812703076</updated>
+    </task>
+    <task id="LOCAL-00004" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751812764141</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1751812764141</updated>
+    </task>
+    <task id="LOCAL-00005" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751812927567</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1751812927567</updated>
+    </task>
+    <task id="LOCAL-00006" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751813054934</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1751813054934</updated>
+    </task>
+    <task id="LOCAL-00007" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751813258497</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1751813258497</updated>
+    </task>
+    <task id="LOCAL-00008" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751813303854</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1751813303854</updated>
+    </task>
+    <task id="LOCAL-00009" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751813538885</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1751813538885</updated>
+    </task>
+    <task id="LOCAL-00010" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751815463380</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1751815463380</updated>
+    </task>
+    <task id="LOCAL-00011" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751815532069</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1751815532069</updated>
+    </task>
+    <task id="LOCAL-00012" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751815559667</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1751815559667</updated>
+    </task>
+    <task id="LOCAL-00013" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751815861348</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1751815861348</updated>
+    </task>
+    <task id="LOCAL-00014" summary="editing">
+      <option name="closed" value="true" />
+      <created>1751815996470</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1751815996470</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="editing" />
+    <option name="LAST_COMMIT_MESSAGE" value="editing" />
+  </component>
+</project>
