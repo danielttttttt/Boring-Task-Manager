@@ -81,6 +81,20 @@
                 </div>
             </section>
 
+            <!-- Task Search -->
+            <section class="task-search">
+                <div class="search-container">
+                    <div class="search-group">
+                        <label for="taskSearch">Search Tasks:</label>
+                        <div class="search-input-container">
+                            <input type="text" id="taskSearch" placeholder="Search by title or description..." autocomplete="off">
+                            <button type="button" id="clearSearch" class="clear-search-btn" title="Clear search">×</button>
+                        </div>
+                        <div id="searchResults" class="search-results"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Task Filters and Controls -->
             <section class="task-controls">
                 <div class="controls-row">
@@ -92,7 +106,7 @@
                             <option value="completed">Completed</option>
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="filterCategory">Filter by Category:</label>
                         <select id="filterCategory">
@@ -104,7 +118,7 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label for="sortBy">Sort by:</label>
                         <select id="sortBy">

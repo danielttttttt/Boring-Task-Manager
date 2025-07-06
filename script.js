@@ -8,6 +8,7 @@ class TaskManager {
             category: 'all'
         };
         this.currentSort = 'created';
+        this.searchQuery = '';
         
         this.initializeElements();
         this.bindEvents();
@@ -38,6 +39,11 @@ class TaskManager {
         this.filterStatus = document.getElementById('filterStatus');
         this.filterCategory = document.getElementById('filterCategory');
         this.sortBy = document.getElementById('sortBy');
+
+        // Search elements
+        this.taskSearch = document.getElementById('taskSearch');
+        this.clearSearchBtn = document.getElementById('clearSearch');
+        this.searchResults = document.getElementById('searchResults');
     }
 
     bindEvents() {
@@ -45,6 +51,10 @@ class TaskManager {
         this.filterStatus.addEventListener('change', () => this.updateFilters());
         this.filterCategory.addEventListener('change', () => this.updateFilters());
         this.sortBy.addEventListener('change', () => this.updateSort());
+
+        // Search events
+        this.taskSearch.addEventListener('input', (e) => this.handleSearch(e));
+        this.clearSearchBtn.addEventListener('click', () => this.clearSearch());
     }
 
     handleAddTask(e) {
@@ -107,6 +117,7 @@ class TaskManager {
         this.renderTasks();
         this.updateStats();
         this.updateEmptyState();
+        this.updateSearchResults();
     }
 
     renderTasks() {
@@ -188,7 +199,11 @@ class TaskManager {
             const categoryMatch = this.currentFilter.category === 'all' ||
                                  task.category === this.currentFilter.category;
 
-            return statusMatch && categoryMatch;
+            const searchMatch = this.searchQuery === '' ||
+                               task.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                               task.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+            return statusMatch && categoryMatch && searchMatch;
         });
     }
 
@@ -237,13 +252,49 @@ class TaskManager {
     loadTasks() {
         const savedTasks = localStorage.getItem('taskManagerTasks');
         const savedCounter = localStorage.getItem('taskManagerCounter');
-        
+
         if (savedTasks) {
             this.tasks = JSON.parse(savedTasks);
         }
-        
+
         if (savedCounter) {
             this.taskIdCounter = parseInt(savedCounter);
+        }
+    }
+
+    handleSearch(e) {
+        this.searchQuery = e.target.value.trim();
+        this.updateDisplay();
+        this.updateClearButton();
+    }
+
+    clearSearch() {
+        this.taskSearch.value = '';
+        this.searchQuery = '';
+        this.updateDisplay();
+        this.updateClearButton();
+        this.taskSearch.focus();
+    }
+
+    updateClearButton() {
+        if (this.searchQuery.length > 0) {
+            this.clearSearchBtn.classList.add('visible');
+        } else {
+            this.clearSearchBtn.classList.remove('visible');
+        }
+    }
+
+    updateSearchResults() {
+        if (this.searchQuery.length > 0) {
+            const filteredTasks = this.getFilteredTasks();
+            const totalTasks = this.tasks.filter(task => {
+                return task.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                       task.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+            }).length;
+
+            this.searchResults.textContent = `Found ${filteredTasks.length} of ${totalTasks} matching tasks`;
+        } else {
+            this.searchResults.textContent = '';
         }
     }
 }

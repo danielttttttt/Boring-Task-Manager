@@ -144,6 +144,82 @@ header p {
     font-weight: 500;
 }
 
+/* Task Search */
+.task-search {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.search-container {
+    max-width: 600px;
+}
+
+.search-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.search-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-container input {
+    flex: 1;
+    padding: 12px 40px 12px 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.search-input-container input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #7f8c8d;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.clear-search-btn:hover {
+    background-color: #f8f9fa;
+    color: #e74c3c;
+}
+
+.clear-search-btn.visible {
+    display: block;
+}
+
+.search-results {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
 /* Task Controls */
 .task-controls {
     background: white;
