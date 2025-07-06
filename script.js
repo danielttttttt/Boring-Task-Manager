@@ -347,7 +347,7 @@ class BoringTaskManager {
     updateEmptyState() {
         const filteredTasks = this.getFilteredTasks();
         if (filteredTasks.length === 0) {
-            this.emptyState.style.display = 'block';
+            this.emptyState.style.display = 'flex';
             this.taskList.style.display = 'none';
         } else {
             this.emptyState.style.display = 'none';

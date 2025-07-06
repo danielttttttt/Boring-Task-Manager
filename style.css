@@ -364,6 +364,8 @@ header p {
     border-radius: 4px;
     overflow: hidden;
     border: 1px solid #ddd;
+    background-color: white;
+    min-height: 200px;
 }
 
 .list-header {
@@ -771,7 +773,6 @@ header p {
     color: #999;
     font-style: italic;
     background-color: white;
-    border: 1px solid #ddd;
     border-top: none;
     border-radius: 0 0 4px 4px;
     margin: 0;
