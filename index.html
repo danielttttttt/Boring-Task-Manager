@@ -22,7 +22,16 @@
                     <div id="notificationPanel" class="notification-panel">
                         <div class="notification-header">
                             <h3>Task Notifications</h3>
-                            <button id="closeNotifications" class="close-btn">×</button>
+                            <div class="notification-controls">
+                                <button id="notificationSettings" class="settings-btn" title="Notification Settings">⚙️</button>
+                                <button id="clearAllNotifications" class="clear-btn" title="Clear All">🗑️</button>
+                                <button id="closeNotifications" class="close-btn">×</button>
+                            </div>
+                        </div>
+                        <div class="notification-tabs">
+                            <button class="tab-btn active" data-tab="active">Active</button>
+                            <button class="tab-btn" data-tab="snoozed">Snoozed</button>
+                            <button class="tab-btn" data-tab="history">History</button>
                         </div>
                         <div id="notificationList" class="notification-list">
                             <p class="no-notifications">No notifications</p>

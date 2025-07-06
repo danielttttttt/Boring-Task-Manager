@@ -153,7 +153,11 @@ class TaskManager {
 
     createTaskElement(task) {
         const taskItem = document.createElement('div');
-        taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
+        let taskClasses = 'task-item';
+        if (task.completed) taskClasses += ' completed';
+        if (isOverdue) taskClasses += ' overdue';
+        if (isDueSoon) taskClasses += ' due-soon';
+        taskItem.className = taskClasses;
 
         const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date';
         const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
@@ -316,6 +320,123 @@ class TaskManager {
         } else {
             this.searchResults.textContent = '';
         }
+    }
+
+    // Notification System Methods
+    updateNotifications() {
+        const notifications = this.generateNotifications();
+        this.updateNotificationBadge(notifications);
+        this.updateNotificationList(notifications);
+    }
+
+    generateNotifications() {
+        const notifications = [];
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        this.tasks.forEach(task => {
+            if (task.completed || !task.dueDate) return;
+
+            const dueDate = new Date(task.dueDate);
+            const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+            const timeDiff = dueDateOnly.getTime() - today.getTime();
+            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            if (daysDiff < 0) {
+                // Overdue
+                const daysOverdue = Math.abs(daysDiff);
+                notifications.push({
+                    id: task.id,
+                    title: task.title,
+                    message: `Overdue by ${daysOverdue} day${daysOverdue !== 1 ? 's' : ''}`,
+                    type: 'urgent',
+                    priority: 1,
+                    daysOverdue: daysOverdue
+                });
+            } else if (daysDiff === 0) {
+                // Due today
+                notifications.push({
+                    id: task.id,
+                    title: task.title,
+                    message: 'Due today',
+                    type: 'urgent',
+                    priority: 2
+                });
+            } else if (daysDiff === 1) {
+                // Due tomorrow
+                notifications.push({
+                    id: task.id,
+                    title: task.title,
+                    message: 'Due tomorrow',
+                    type: 'warning',
+                    priority: 3
+                });
+            } else if (daysDiff <= 3) {
+                // Due within 3 days
+                notifications.push({
+                    id: task.id,
+                    title: task.title,
+                    message: `Due in ${daysDiff} days`,
+                    type: 'warning',
+                    priority: 4
+                });
+            }
+        });
+
+        // Sort by priority (urgent first)
+        return notifications.sort((a, b) => a.priority - b.priority);
+    }
+
+    updateNotificationBadge(notifications) {
+        const urgentCount = notifications.filter(n => n.type === 'urgent').length;
+        const totalCount = notifications.length;
+
+        if (totalCount > 0) {
+            this.notificationCount.textContent = totalCount;
+            this.notificationCount.classList.add('visible');
+
+            if (urgentCount > 0) {
+                this.notificationBadge.classList.add('has-urgent');
+                this.notificationBadge.classList.remove('has-notifications');
+            } else {
+                this.notificationBadge.classList.add('has-notifications');
+                this.notificationBadge.classList.remove('has-urgent');
+            }
+        } else {
+            this.notificationCount.classList.remove('visible');
+            this.notificationBadge.classList.remove('has-notifications', 'has-urgent');
+        }
+    }
+
+    updateNotificationList(notifications) {
+        if (notifications.length === 0) {
+            this.notificationList.innerHTML = '<p class="no-notifications">No notifications</p>';
+            return;
+        }
+
+        this.notificationList.innerHTML = notifications.map(notification => `
+            <div class="notification-item ${notification.type}">
+                <div class="notification-title">${this.escapeHtml(notification.title)}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-time">Task ID: ${notification.id}</div>
+            </div>
+        `).join('');
+    }
+
+    toggleNotificationPanel() {
+        this.notificationPanel.classList.toggle('visible');
+    }
+
+    closeNotificationPanel() {
+        this.notificationPanel.classList.remove('visible');
+    }
+
+    isDueSoon(dueDate) {
+        const now = new Date();
+        const due = new Date(dueDate);
+        const timeDiff = due.getTime() - now.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        return daysDiff >= 0 && daysDiff <= 3;
     }
 }
 
