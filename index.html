@@ -9,8 +9,27 @@
 <body>
     <div class="container">
         <header>
-            <h1>Task Manager</h1>
-            <p>Organize your tasks efficiently</p>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Task Manager</h1>
+                    <p>Organize your tasks efficiently</p>
+                </div>
+                <div class="notification-center">
+                    <div id="notificationBadge" class="notification-badge">
+                        <span class="badge-icon">🔔</span>
+                        <span id="notificationCount" class="notification-count">0</span>
+                    </div>
+                    <div id="notificationPanel" class="notification-panel">
+                        <div class="notification-header">
+                            <h3>Task Notifications</h3>
+                            <button id="closeNotifications" class="close-btn">×</button>
+                        </div>
+                        <div id="notificationList" class="notification-list">
+                            <p class="no-notifications">No notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <main>

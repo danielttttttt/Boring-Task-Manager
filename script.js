@@ -44,6 +44,13 @@ class TaskManager {
         this.taskSearch = document.getElementById('taskSearch');
         this.clearSearchBtn = document.getElementById('clearSearch');
         this.searchResults = document.getElementById('searchResults');
+
+        // Notification elements
+        this.notificationBadge = document.getElementById('notificationBadge');
+        this.notificationCount = document.getElementById('notificationCount');
+        this.notificationPanel = document.getElementById('notificationPanel');
+        this.notificationList = document.getElementById('notificationList');
+        this.closeNotificationsBtn = document.getElementById('closeNotifications');
     }
 
     bindEvents() {
@@ -55,6 +62,17 @@ class TaskManager {
         // Search events
         this.taskSearch.addEventListener('input', (e) => this.handleSearch(e));
         this.clearSearchBtn.addEventListener('click', () => this.clearSearch());
+
+        // Notification events
+        this.notificationBadge.addEventListener('click', () => this.toggleNotificationPanel());
+        this.closeNotificationsBtn.addEventListener('click', () => this.closeNotificationPanel());
+
+        // Close notification panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.notificationBadge.contains(e.target) && !this.notificationPanel.contains(e.target)) {
+                this.closeNotificationPanel();
+            }
+        });
     }
 
     handleAddTask(e) {
@@ -118,6 +136,7 @@ class TaskManager {
         this.updateStats();
         this.updateEmptyState();
         this.updateSearchResults();
+        this.updateNotifications();
     }
 
     renderTasks() {
@@ -138,6 +157,7 @@ class TaskManager {
 
         const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date';
         const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
+        const isDueSoon = task.dueDate && this.isDueSoon(task.dueDate) && !task.completed && !isOverdue;
 
         taskItem.innerHTML = `
             <div class="task-cell">

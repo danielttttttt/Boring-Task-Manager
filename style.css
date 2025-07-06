@@ -20,7 +20,6 @@ body {
 
 /* Header */
 header {
-    text-align: center;
     margin-bottom: 30px;
     padding: 20px;
     background: white;
@@ -28,15 +27,210 @@ header {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-header h1 {
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-text {
+    text-align: center;
+    flex: 1;
+}
+
+.header-text h1 {
     color: #2c3e50;
     margin-bottom: 10px;
     font-size: 2.5rem;
 }
 
-header p {
+.header-text p {
     color: #7f8c8d;
     font-size: 1.1rem;
+}
+
+/* Notification System */
+.notification-center {
+    position: relative;
+}
+
+.notification-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 2px solid #e1e8ed;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.notification-badge:hover {
+    background-color: #e9ecef;
+    border-color: #3498db;
+}
+
+.notification-badge.has-notifications {
+    background-color: #fff3cd;
+    border-color: #f39c12;
+    animation: pulse 2s infinite;
+}
+
+.notification-badge.has-urgent {
+    background-color: #f8d7da;
+    border-color: #e74c3c;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.badge-icon {
+    font-size: 18px;
+}
+
+.notification-count {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 18px;
+    text-align: center;
+    display: none;
+}
+
+.notification-count.visible {
+    display: inline-block;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    width: 350px;
+    background: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+}
+
+.notification-panel.visible {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e1e8ed;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.notification-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #7f8c8d;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.notification-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.notification-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item.urgent {
+    border-left: 4px solid #e74c3c;
+    background-color: #fef5f5;
+}
+
+.notification-item.warning {
+    border-left: 4px solid #f39c12;
+    background-color: #fefbf3;
+}
+
+.notification-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.notification-message {
+    color: #7f8c8d;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.notification-time {
+    color: #adb5bd;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.no-notifications {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+    margin: 0;
 }
 
 /* Task Input Section */
@@ -419,6 +613,12 @@ header p {
 
 .task-item.overdue {
     border-left: 4px solid #e74c3c;
+    background-color: #fef5f5;
+}
+
+.task-item.due-soon {
+    border-left: 4px solid #f39c12;
+    background-color: #fefbf3;
 }
 
 /* Animation for new tasks */
