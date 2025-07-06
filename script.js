@@ -337,6 +337,9 @@ class BoringTaskManager {
         this.procrastinationScore.textContent = `${procrastination}%`;
         this.lifeSatisfaction.textContent = satisfaction;
 
+        // Update new satirical stats
+        this.updateSatiricalStats(total, completed, overdue);
+
         // Update depressing insights
         this.updateSadInsights(total, completed, overdue, procrastination);
     }
