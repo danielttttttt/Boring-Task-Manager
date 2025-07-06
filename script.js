@@ -42,6 +42,8 @@ class BoringTaskManager {
         this.attachEventListeners();
         this.initializeTimestamp();
         this.startSadnessTimer();
+        this.startTimeWasting();
+        this.startOpportunityCounter();
         this.logActivity('System initialized - Another day of potential disappointment begins');
         this.updateDisplay();
     }
@@ -94,6 +96,20 @@ class BoringTaskManager {
         this.demotivationalMessageElement = document.getElementById('demotivationalMessage');
         this.newDemotivationBtn = document.getElementById('newDemotivationBtn');
         this.existentialThoughtElement = document.getElementById('existentialThought');
+
+        // New satirical elements
+        this.timeWastedElement = document.getElementById('timeWasted');
+        this.productivityLevelElement = document.getElementById('productivityLevel');
+        this.dreamsCrushedElement = document.getElementById('dreamsCrushed');
+        this.regretLevelElement = document.getElementById('regretLevel');
+        this.fakeComparisonsElement = document.getElementById('fakeComparisons');
+        this.newComparisonBtn = document.getElementById('newComparisonBtn');
+        this.opportunityListElement = document.getElementById('opportunityList');
+        this.opportunitiesMissedElement = document.getElementById('opportunitiesMissed');
+        this.daysLeftElement = document.getElementById('daysLeft');
+        this.appTimeElement = document.getElementById('appTime');
+        this.slothComparisonElement = document.getElementById('slothComparison');
+        this.socialPressureElement = document.getElementById('socialPressure');
     }
 
     attachEventListeners() {
@@ -120,6 +136,7 @@ class BoringTaskManager {
         this.currentMoodSelect.addEventListener('change', () => this.updateMood());
         this.viewAbandonedBtn.addEventListener('click', () => this.showAbandonedTasks());
         this.newDemotivationBtn.addEventListener('click', () => this.showNewDemotivation());
+        this.newComparisonBtn.addEventListener('click', () => this.showNewComparison());
 
         // Form validation listeners
         this.estimatedTime.addEventListener('input', () => this.validateTimeInput());
