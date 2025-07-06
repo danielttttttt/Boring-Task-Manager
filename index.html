@@ -3,264 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Simple Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-content">
-                <div class="header-text">
-                    <h1>Task Manager</h1>
-                    <p>Organize your tasks efficiently</p>
-                </div>
-                <div class="notification-center">
-                    <div id="notificationBadge" class="notification-badge">
-                        <span class="badge-icon">🔔</span>
-                        <span id="notificationCount" class="notification-count">0</span>
-                    </div>
-                    <div id="notificationPanel" class="notification-panel">
-                        <div class="notification-header">
-                            <h3>Smart Notifications</h3>
-                            <div class="notification-controls">
-                                <button id="notificationSettings" class="settings-btn" title="Settings">⚙️</button>
-                                <button id="productivityInsights" class="insights-btn" title="Productivity Insights">📊</button>
-                                <button id="closeNotifications" class="close-btn">×</button>
-                            </div>
-                        </div>
-                        <div class="notification-tabs">
-                            <button class="tab-btn active" data-tab="urgent">Urgent</button>
-                            <button class="tab-btn" data-tab="upcoming">Upcoming</button>
-                            <button class="tab-btn" data-tab="insights">Insights</button>
-                        </div>
-                        <div id="notificationContent" class="notification-content">
-                            <div id="urgentTab" class="tab-content active">
-                                <div id="urgentList" class="notification-list"></div>
-                            </div>
-                            <div id="upcomingTab" class="tab-content">
-                                <div id="upcomingList" class="notification-list"></div>
-                            </div>
-                            <div id="insightsTab" class="tab-content">
-                                <div id="productivityInsightsList" class="insights-content"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h1>📝 Task Manager</h1>
+            <p>Stay organized and productive</p>
         </header>
 
         <main>
-            <!-- Task Input Section -->
-            <section class="task-input-section">
+            <!-- Add Task Section -->
+            <section class="add-task">
                 <h2>Add New Task</h2>
-                <form id="taskForm" class="task-form">
+                <form id="taskForm">
                     <div class="form-group">
-                        <label for="taskTitle">Task Title</label>
-                        <input type="text" id="taskTitle" name="taskTitle" required placeholder="Enter task title...">
+                        <input type="text" id="taskInput" placeholder="Enter your task..." required>
+                        <button type="submit">Add Task</button>
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="taskPriority">Priority</label>
-                            <select id="taskPriority" name="taskPriority">
-                                <option value="low">Low</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="high">High</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="taskCategory">Category</label>
-                            <select id="taskCategory" name="taskCategory">
-                                <option value="personal">Personal</option>
-                                <option value="work">Work</option>
-                                <option value="shopping">Shopping</option>
-                                <option value="health">Health</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="taskDueDate">Due Date</label>
-                            <input type="date" id="taskDueDate" name="taskDueDate">
-                        </div>
+                    <div class="form-options">
+                        <select id="prioritySelect">
+                            <option value="low">Low Priority</option>
+                            <option value="medium" selected>Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                        <input type="date" id="dueDateInput">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="taskDescription">Description (Optional)</label>
-                        <textarea id="taskDescription" name="taskDescription" rows="3" placeholder="Add task description..."></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Add Task</button>
                 </form>
             </section>
 
-            <!-- Task Statistics -->
-            <section class="task-stats">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3 id="totalTasks">0</h3>
-                        <p>Total Tasks</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="completedTasks">0</h3>
-                        <p>Completed</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="pendingTasks">0</h3>
-                        <p>Pending</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="completionRate">0%</h3>
-                        <p>Completion Rate</p>
-                    </div>
+            <!-- Task Stats -->
+            <section class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalTasks">0</span>
+                    <span class="stat-label">Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="pendingTasks">0</span>
+                    <span class="stat-label">Pending</span>
                 </div>
             </section>
 
-            <!-- Task Search -->
-            <section class="task-search">
-                <div class="search-container">
-                    <div class="search-group">
-                        <label for="taskSearch">Search Tasks:</label>
-                        <div class="search-input-container">
-                            <input type="text" id="taskSearch" placeholder="Search by title or description..." autocomplete="off">
-                            <button type="button" id="clearSearch" class="clear-search-btn" title="Clear search">×</button>
-                        </div>
-                        <div id="searchResults" class="search-results"></div>
-                    </div>
-                </div>
+            <!-- Filter Section -->
+            <section class="filters">
+                <button class="filter-btn active" data-filter="all">All Tasks</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button class="filter-btn" data-filter="high">High Priority</button>
             </section>
 
-            <!-- Task Filters and Controls -->
-            <section class="task-controls">
-                <div class="controls-row">
-                    <div class="filter-group">
-                        <label for="filterStatus">Filter by Status:</label>
-                        <select id="filterStatus">
-                            <option value="all">All Tasks</option>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="filterCategory">Filter by Category:</label>
-                        <select id="filterCategory">
-                            <option value="all">All Categories</option>
-                            <option value="personal">Personal</option>
-                            <option value="work">Work</option>
-                            <option value="shopping">Shopping</option>
-                            <option value="health">Health</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="filter-group">
-                        <label for="sortBy">Sort by:</label>
-                        <select id="sortBy">
-                            <option value="created">Date Created</option>
-                            <option value="priority">Priority</option>
-                            <option value="dueDate">Due Date</option>
-                            <option value="title">Title</option>
-                        </select>
-                    </div>
+            <!-- Task List -->
+            <section class="task-list">
+                <div id="taskContainer">
+                    <!-- Tasks will be added here dynamically -->
                 </div>
-            </section>
-
-            <!-- Task List (Detailed View) -->
-            <section class="task-list-section">
-                <h2>Task List (Detailed View)</h2>
-                <div class="task-list-container">
-                    <div class="task-list-header">
-                        <div class="header-cell">Status</div>
-                        <div class="header-cell">Title</div>
-                        <div class="header-cell">Priority</div>
-                        <div class="header-cell">Category</div>
-                        <div class="header-cell">Due Date</div>
-                        <div class="header-cell">Actions</div>
-                    </div>
-                    
-                    <div id="taskList" class="task-list">
-                        <!-- Tasks will be dynamically added here -->
-                    </div>
-                    
-                    <div id="emptyState" class="empty-state">
-                        <p>No tasks yet. Add your first task above!</p>
-                    </div>
+                <div id="emptyMessage" class="empty-message">
+                    <p>No tasks yet. Add your first task above!</p>
                 </div>
             </section>
         </main>
-
-        <!-- Notification Settings Modal -->
-        <div id="settingsModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Notification Settings</h3>
-                    <button id="closeSettings" class="close-btn">×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="enableSounds" checked>
-                            <span class="checkmark"></span>
-                            Enable notification sounds
-                        </label>
-                    </div>
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="enableBrowserNotifications" checked>
-                            <span class="checkmark"></span>
-                            Enable browser notifications
-                        </label>
-                    </div>
-                    <div class="setting-group">
-                        <label for="reminderTime">Reminder time for due tasks:</label>
-                        <select id="reminderTime">
-                            <option value="0">On due date</option>
-                            <option value="1" selected>1 day before</option>
-                            <option value="2">2 days before</option>
-                            <option value="3">3 days before</option>
-                            <option value="7">1 week before</option>
-                        </select>
-                    </div>
-                    <div class="setting-group">
-                        <label for="workingHours">Working hours notifications:</label>
-                        <div class="time-range">
-                            <input type="time" id="workStartTime" value="09:00">
-                            <span>to</span>
-                            <input type="time" id="workEndTime" value="17:00">
-                        </div>
-                    </div>
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="weekendNotifications">
-                            <span class="checkmark"></span>
-                            Enable weekend notifications
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="saveSettings" class="btn btn-primary">Save Settings</button>
-                    <button id="resetSettings" class="btn btn-secondary">Reset to Default</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Smart Notification Toast -->
-        <div id="notificationToast" class="notification-toast">
-            <div class="toast-content">
-                <div class="toast-icon">🔔</div>
-                <div class="toast-message">
-                    <div class="toast-title"></div>
-                    <div class="toast-text"></div>
-                </div>
-                <div class="toast-actions">
-                    <button class="toast-btn complete-btn">✓ Complete</button>
-                    <button class="toast-btn snooze-btn">💤 Snooze</button>
-                    <button class="toast-btn close-toast">×</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="script.js"></script>
