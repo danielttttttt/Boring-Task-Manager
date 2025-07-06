@@ -22,13 +22,18 @@ class TaskManager {
         this.snoozedNotifications = [];
         this.lastNotificationCheck = new Date();
         
-        this.initializeElements();
-        this.bindEvents();
-        this.loadTasks();
-        this.loadNotificationSettings();
-        this.requestNotificationPermission();
-        this.updateDisplay();
-        this.startNotificationScheduler();
+        try {
+            this.initializeElements();
+            this.bindEvents();
+            this.loadTasks();
+            this.loadNotificationSettings();
+            this.requestNotificationPermission();
+            this.updateDisplay();
+            this.startNotificationScheduler();
+            console.log('TaskManager initialized successfully');
+        } catch (error) {
+            console.error('TaskManager initialization failed:', error);
+        }
     }
 
     initializeElements() {
@@ -39,6 +44,13 @@ class TaskManager {
         this.taskCategory = document.getElementById('taskCategory');
         this.taskDueDate = document.getElementById('taskDueDate');
         this.taskDescription = document.getElementById('taskDescription');
+
+        // Debug: Check if critical elements exist
+        console.log('Form elements found:');
+        console.log('taskForm:', !!this.taskForm);
+        console.log('taskTitle:', !!this.taskTitle);
+        console.log('taskPriority:', !!this.taskPriority);
+        console.log('taskCategory:', !!this.taskCategory);
 
         // Display elements
         this.taskList = document.getElementById('taskList');
@@ -60,7 +72,7 @@ class TaskManager {
         this.clearSearchBtn = document.getElementById('clearSearch');
         this.searchResults = document.getElementById('searchResults');
 
-        // Notification elements
+        // Notification elements (with error handling)
         this.notificationBadge = document.getElementById('notificationBadge');
         this.notificationCount = document.getElementById('notificationCount');
         this.notificationPanel = document.getElementById('notificationPanel');
@@ -68,77 +80,130 @@ class TaskManager {
         this.notificationSettingsBtn = document.getElementById('notificationSettings');
         this.productivityInsightsBtn = document.getElementById('productivityInsights');
 
-        // Tab elements
+        // Tab elements (with error handling)
         this.urgentList = document.getElementById('urgentList');
         this.upcomingList = document.getElementById('upcomingList');
         this.productivityInsightsList = document.getElementById('productivityInsightsList');
 
-        // Modal elements
+        // Modal elements (with error handling)
         this.settingsModal = document.getElementById('settingsModal');
         this.closeSettingsBtn = document.getElementById('closeSettings');
         this.saveSettingsBtn = document.getElementById('saveSettings');
         this.resetSettingsBtn = document.getElementById('resetSettings');
 
-        // Toast elements
+        // Toast elements (with error handling)
         this.notificationToast = document.getElementById('notificationToast');
+
+        // Debug: Check notification elements
+        console.log('Notification elements found:');
+        console.log('notificationBadge:', !!this.notificationBadge);
+        console.log('settingsModal:', !!this.settingsModal);
+        console.log('urgentList:', !!this.urgentList);
     }
 
     bindEvents() {
-        this.taskForm.addEventListener('submit', (e) => this.handleAddTask(e));
-        this.filterStatus.addEventListener('change', () => this.updateFilters());
-        this.filterCategory.addEventListener('change', () => this.updateFilters());
-        this.sortBy.addEventListener('change', () => this.updateSort());
+        // Core form events (essential)
+        if (this.taskForm) {
+            this.taskForm.addEventListener('submit', (e) => this.handleAddTask(e));
+        }
 
-        // Search events
-        this.taskSearch.addEventListener('input', (e) => this.handleSearch(e));
-        this.clearSearchBtn.addEventListener('click', () => this.clearSearch());
+        if (this.filterStatus) {
+            this.filterStatus.addEventListener('change', () => this.updateFilters());
+        }
+        if (this.filterCategory) {
+            this.filterCategory.addEventListener('change', () => this.updateFilters());
+        }
+        if (this.sortBy) {
+            this.sortBy.addEventListener('change', () => this.updateSort());
+        }
 
-        // Notification events
-        this.notificationBadge.addEventListener('click', () => this.toggleNotificationPanel());
-        this.closeNotificationsBtn.addEventListener('click', () => this.closeNotificationPanel());
-        this.notificationSettingsBtn.addEventListener('click', () => this.openSettingsModal());
-        this.productivityInsightsBtn.addEventListener('click', () => this.switchTab('insights'));
+        // Search events (optional)
+        if (this.taskSearch) {
+            this.taskSearch.addEventListener('input', (e) => this.handleSearch(e));
+        }
+        if (this.clearSearchBtn) {
+            this.clearSearchBtn.addEventListener('click', () => this.clearSearch());
+        }
 
-        // Modal events
-        this.closeSettingsBtn.addEventListener('click', () => this.closeSettingsModal());
-        this.saveSettingsBtn.addEventListener('click', () => this.saveNotificationSettings());
-        this.resetSettingsBtn.addEventListener('click', () => this.resetNotificationSettings());
+        // Notification events (optional)
+        if (this.notificationBadge) {
+            this.notificationBadge.addEventListener('click', () => this.toggleNotificationPanel());
+        }
+        if (this.closeNotificationsBtn) {
+            this.closeNotificationsBtn.addEventListener('click', () => this.closeNotificationPanel());
+        }
+        if (this.notificationSettingsBtn) {
+            this.notificationSettingsBtn.addEventListener('click', () => this.openSettingsModal());
+        }
+        if (this.productivityInsightsBtn) {
+            this.productivityInsightsBtn.addEventListener('click', () => this.switchTab('insights'));
+        }
 
-        // Tab events
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
-        });
+        // Modal events (optional)
+        if (this.closeSettingsBtn) {
+            this.closeSettingsBtn.addEventListener('click', () => this.closeSettingsModal());
+        }
+        if (this.saveSettingsBtn) {
+            this.saveSettingsBtn.addEventListener('click', () => this.saveNotificationSettings());
+        }
+        if (this.resetSettingsBtn) {
+            this.resetSettingsBtn.addEventListener('click', () => this.resetNotificationSettings());
+        }
 
-        // Close modals when clicking outside
+        // Tab events (optional)
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        if (tabBtns.length > 0) {
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+            });
+        }
+
+        // Close modals when clicking outside (optional)
         document.addEventListener('click', (e) => {
-            if (!this.notificationBadge.contains(e.target) && !this.notificationPanel.contains(e.target)) {
-                this.closeNotificationPanel();
+            if (this.notificationBadge && this.notificationPanel) {
+                if (!this.notificationBadge.contains(e.target) && !this.notificationPanel.contains(e.target)) {
+                    this.closeNotificationPanel();
+                }
             }
-            if (e.target === this.settingsModal) {
+            if (this.settingsModal && e.target === this.settingsModal) {
                 this.closeSettingsModal();
             }
         });
+
+        console.log('Event binding completed');
     }
 
     handleAddTask(e) {
         e.preventDefault();
-        
+        console.log('Form submitted'); // Debug log
+
+        // Check if elements exist
+        if (!this.taskTitle) {
+            console.error('taskTitle element not found');
+            return;
+        }
+
         const task = {
             id: this.taskIdCounter++,
             title: this.taskTitle.value.trim(),
             priority: this.taskPriority.value,
             category: this.taskCategory.value,
             dueDate: this.taskDueDate.value,
-            description: this.taskDescription.value.trim(),
+            description: this.taskDescription ? this.taskDescription.value.trim() : '',
             completed: false,
             createdAt: new Date().toISOString()
         };
 
+        console.log('Task created:', task); // Debug log
+
         if (task.title) {
             this.tasks.push(task);
+            console.log('Task added to array. Total tasks:', this.tasks.length); // Debug log
             this.saveTasks();
             this.updateDisplay();
             this.taskForm.reset();
+        } else {
+            console.log('Task title is empty');
         }
     }
 
@@ -181,7 +246,15 @@ class TaskManager {
         this.updateStats();
         this.updateEmptyState();
         this.updateSearchResults();
-        this.updateNotifications();
+
+        // Only update notifications if elements exist
+        try {
+            if (this.notificationBadge) {
+                this.updateNotifications();
+            }
+        } catch (error) {
+            console.log('Notification update failed:', error);
+        }
     }
 
     renderTasks() {
