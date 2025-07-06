@@ -26,11 +26,15 @@ class TaskManager {
             this.initializeElements();
             this.bindEvents();
             this.loadTasks();
-            this.loadNotificationSettings();
-            this.requestNotificationPermission();
             this.updateDisplay();
-            this.startNotificationScheduler();
             console.log('TaskManager initialized successfully');
+
+            // Initialize notification features only if elements exist
+            if (this.notificationBadge) {
+                this.loadNotificationSettings();
+                this.requestNotificationPermission();
+                this.startNotificationScheduler();
+            }
         } catch (error) {
             console.error('TaskManager initialization failed:', error);
         }
@@ -51,6 +55,10 @@ class TaskManager {
         console.log('taskTitle:', !!this.taskTitle);
         console.log('taskPriority:', !!this.taskPriority);
         console.log('taskCategory:', !!this.taskCategory);
+        console.log('taskDueDate:', !!this.taskDueDate);
+        console.log('taskDescription:', !!this.taskDescription);
+        console.log('taskList:', !!this.taskList);
+        console.log('emptyState:', !!this.emptyState);
 
         // Display elements
         this.taskList = document.getElementById('taskList');
@@ -176,19 +184,29 @@ class TaskManager {
     handleAddTask(e) {
         e.preventDefault();
         console.log('Form submitted'); // Debug log
+        alert('Form submitted!'); // Visual debug
 
         // Check if elements exist
         if (!this.taskTitle) {
             console.error('taskTitle element not found');
+            alert('taskTitle element not found');
+            return;
+        }
+
+        const title = this.taskTitle.value.trim();
+        console.log('Task title:', title);
+
+        if (!title) {
+            alert('Please enter a task title');
             return;
         }
 
         const task = {
             id: this.taskIdCounter++,
-            title: this.taskTitle.value.trim(),
-            priority: this.taskPriority.value,
-            category: this.taskCategory.value,
-            dueDate: this.taskDueDate.value,
+            title: title,
+            priority: this.taskPriority ? this.taskPriority.value : 'medium',
+            category: this.taskCategory ? this.taskCategory.value : 'personal',
+            dueDate: this.taskDueDate ? this.taskDueDate.value : '',
             description: this.taskDescription ? this.taskDescription.value.trim() : '',
             completed: false,
             createdAt: new Date().toISOString()
@@ -196,14 +214,15 @@ class TaskManager {
 
         console.log('Task created:', task); // Debug log
 
-        if (task.title) {
-            this.tasks.push(task);
-            console.log('Task added to array. Total tasks:', this.tasks.length); // Debug log
-            this.saveTasks();
-            this.updateDisplay();
+        this.tasks.push(task);
+        console.log('Task added to array. Total tasks:', this.tasks.length); // Debug log
+        alert(`Task added! Total tasks: ${this.tasks.length}`);
+
+        this.saveTasks();
+        this.updateDisplay();
+
+        if (this.taskForm) {
             this.taskForm.reset();
-        } else {
-            console.log('Task title is empty');
         }
     }
 
@@ -258,28 +277,42 @@ class TaskManager {
     }
 
     renderTasks() {
+        if (!this.taskList) {
+            console.log('taskList element not found');
+            return;
+        }
+
         const filteredTasks = this.getFilteredTasks();
         const sortedTasks = this.getSortedTasks(filteredTasks);
 
         this.taskList.innerHTML = '';
 
         sortedTasks.forEach(task => {
-            const taskElement = this.createTaskElement(task);
-            this.taskList.appendChild(taskElement);
+            try {
+                const taskElement = this.createTaskElement(task);
+                this.taskList.appendChild(taskElement);
+            } catch (error) {
+                console.error('Error creating task element:', error, task);
+            }
         });
+
+        console.log(`Rendered ${sortedTasks.length} tasks`);
     }
 
     createTaskElement(task) {
         const taskItem = document.createElement('div');
+
+        // Calculate date-related properties first
+        const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date';
+        const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
+        const isDueSoon = task.dueDate && this.isDueSoon(task.dueDate) && !task.completed && !isOverdue;
+
+        // Set CSS classes
         let taskClasses = 'task-item';
         if (task.completed) taskClasses += ' completed';
         if (isOverdue) taskClasses += ' overdue';
         if (isDueSoon) taskClasses += ' due-soon';
         taskItem.className = taskClasses;
-
-        const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date';
-        const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
-        const isDueSoon = task.dueDate && this.isDueSoon(task.dueDate) && !task.completed && !isOverdue;
 
         taskItem.innerHTML = `
             <div class="task-cell">
@@ -306,8 +339,11 @@ class TaskManager {
         `;
 
         const checkbox = taskItem.querySelector('.task-checkbox');
-        checkbox.addEventListener('change', () => this.toggleTask(task.id));
+        if (checkbox) {
+            checkbox.addEventListener('change', () => this.toggleTask(task.id));
+        }
 
+        console.log('Created task element:', taskItem);
         return taskItem;
     }
 
@@ -324,11 +360,20 @@ class TaskManager {
     }
 
     updateEmptyState() {
+        if (!this.emptyState) {
+            console.log('emptyState element not found');
+            return;
+        }
+
         const filteredTasks = this.getFilteredTasks();
+        console.log('Filtered tasks for empty state:', filteredTasks.length);
+
         if (filteredTasks.length === 0) {
             this.emptyState.style.display = 'block';
+            console.log('Showing empty state');
         } else {
             this.emptyState.style.display = 'none';
+            console.log('Hiding empty state');
         }
     }
 
@@ -885,38 +930,56 @@ class TaskManager {
     }
 
     loadNotificationSettings() {
-        const saved = localStorage.getItem('taskManagerNotificationSettings');
-        if (saved) {
-            this.notificationSettings = { ...this.notificationSettings, ...JSON.parse(saved) };
-        }
+        try {
+            const saved = localStorage.getItem('taskManagerNotificationSettings');
+            if (saved) {
+                this.notificationSettings = { ...this.notificationSettings, ...JSON.parse(saved) };
+            }
 
-        const savedHistory = localStorage.getItem('taskManagerNotificationHistory');
-        if (savedHistory) {
-            this.notificationHistory = JSON.parse(savedHistory);
-        }
+            const savedHistory = localStorage.getItem('taskManagerNotificationHistory');
+            if (savedHistory) {
+                this.notificationHistory = JSON.parse(savedHistory);
+            }
 
-        const savedSnoozed = localStorage.getItem('taskManagerSnoozedNotifications');
-        if (savedSnoozed) {
-            this.snoozedNotifications = JSON.parse(savedSnoozed);
+            const savedSnoozed = localStorage.getItem('taskManagerSnoozedNotifications');
+            if (savedSnoozed) {
+                this.snoozedNotifications = JSON.parse(savedSnoozed);
+            }
+        } catch (error) {
+            console.log('Failed to load notification settings:', error);
         }
     }
 
     saveNotificationData() {
-        localStorage.setItem('taskManagerNotificationHistory', JSON.stringify(this.notificationHistory));
-        localStorage.setItem('taskManagerSnoozedNotifications', JSON.stringify(this.snoozedNotifications));
+        try {
+            localStorage.setItem('taskManagerNotificationHistory', JSON.stringify(this.notificationHistory));
+            localStorage.setItem('taskManagerSnoozedNotifications', JSON.stringify(this.snoozedNotifications));
+        } catch (error) {
+            console.log('Failed to save notification data:', error);
+        }
     }
 
     requestNotificationPermission() {
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
+        try {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        } catch (error) {
+            console.log('Notification permission request failed:', error);
         }
     }
 
     startNotificationScheduler() {
-        // Check for notifications every minute
-        setInterval(() => {
-            this.updateNotifications();
-        }, 60000);
+        try {
+            // Check for notifications every minute
+            setInterval(() => {
+                if (this.notificationBadge) {
+                    this.updateNotifications();
+                }
+            }, 60000);
+        } catch (error) {
+            console.log('Failed to start notification scheduler:', error);
+        }
     }
 
     // Tab Management
@@ -955,7 +1018,8 @@ class TaskManager {
         const due = new Date(dueDate);
         const timeDiff = due.getTime() - now.getTime();
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        return daysDiff >= 0 && daysDiff <= this.notificationSettings.reminderTime;
+        const reminderDays = this.notificationSettings ? this.notificationSettings.reminderTime : 3;
+        return daysDiff >= 0 && daysDiff <= reminderDays;
     }
 }
 
