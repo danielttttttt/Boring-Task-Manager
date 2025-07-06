@@ -360,6 +360,12 @@ header p {
     padding-bottom: 5px;
 }
 
+.task-list-wrapper {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
 .list-header {
     display: grid;
     grid-template-columns: 60px minmax(200px, 2fr) 80px 100px 80px 100px 120px;
@@ -367,20 +373,27 @@ header p {
     padding: 12px;
     background-color: #e0e0e0;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-bottom: 10px;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
     font-weight: bold;
     font-size: 12px;
     color: #555;
+    align-items: center;
 }
 
 .header-item {
     text-align: center;
     padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
 }
 
 .task-list {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .task-item {
@@ -389,14 +402,23 @@ header p {
     gap: 8px;
     align-items: center;
     padding: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 1px;
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-top: none;
     font-size: 13px;
     min-height: 50px;
     overflow: hidden;
     grid-auto-flow: column;
+}
+
+.task-item:first-child {
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+}
+
+.task-item:last-child {
+    border-radius: 0 0 4px 4px;
 }
 
 /* Ensure all direct children of task-item are grid items */
@@ -749,8 +771,15 @@ header p {
     color: #999;
     font-style: italic;
     background-color: white;
-    border: 1px dashed #ccc;
-    border-radius: 4px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    margin: 0;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 footer {
