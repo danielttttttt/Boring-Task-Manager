@@ -33,7 +33,11 @@ class TaskManager {
         const dueDateInput = document.getElementById('dueDateInput');
 
         const taskText = taskInput.value.trim();
-        if (!taskText) return;
+        if (!taskText) {
+            this.showNotification('Please enter a task description', 'warning');
+            taskInput.focus();
+            return;
+        }
 
         const task = {
             id: Date.now(),
@@ -49,10 +53,45 @@ class TaskManager {
         this.render();
         this.updateStats();
 
-        // Reset form
+        // Reset form with animation
         taskInput.value = '';
         dueDateInput.value = '';
         prioritySelect.value = 'medium';
+
+        // Show success notification
+        this.showNotification('Task added successfully!', 'success');
+
+        // Focus back to input for quick task entry
+        setTimeout(() => taskInput.focus(), 100);
+    }
+
+    showNotification(message, type = 'info') {
+        // Remove existing notification
+        const existing = document.querySelector('.notification');
+        if (existing) {
+            existing.remove();
+        }
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+
+        // Add to DOM
+        document.body.appendChild(notification);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 3000);
     }
 
     toggleTask(id) {
@@ -66,10 +105,20 @@ class TaskManager {
     }
 
     deleteTask(id) {
-        this.tasks = this.tasks.filter(t => t.id !== id);
-        this.saveTasks();
-        this.render();
-        this.updateStats();
+        const taskElement = document.querySelector(`[data-task-id="${id}"]`).closest('.task-item');
+
+        // Add fade out animation
+        taskElement.style.transition = 'all 0.3s ease-out';
+        taskElement.style.transform = 'translateX(-100%)';
+        taskElement.style.opacity = '0';
+
+        setTimeout(() => {
+            this.tasks = this.tasks.filter(t => t.id !== id);
+            this.saveTasks();
+            this.render();
+            this.updateStats();
+            this.showNotification('Task deleted', 'info');
+        }, 300);
     }
 
     setFilter(filter) {
@@ -130,24 +179,41 @@ class TaskManager {
     createTaskHTML(task) {
         const dueDate = task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '';
         const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
-        
+
+        // Get priority icon
+        const priorityIcons = {
+            high: '🔴',
+            medium: '🟡',
+            low: '🟢'
+        };
+
         return `
-            <div class="task-item ${task.completed ? 'completed' : ''} ${isOverdue ? 'overdue' : ''}">
-                <input type="checkbox" class="task-checkbox" 
+            <div class="task-item ${task.completed ? 'completed' : ''} ${isOverdue ? 'overdue' : ''} slide-in">
+                <input type="checkbox" class="task-checkbox"
                        data-task-id="${task.id}" ${task.completed ? 'checked' : ''}>
                 <div class="task-content">
-                    <div class="task-title ${task.completed ? 'completed' : ''}">${task.text}</div>
+                    <div class="task-title ${task.completed ? 'completed' : ''}">${this.escapeHtml(task.text)}</div>
                     <div class="task-meta">
-                        <span class="priority-badge priority-${task.priority}">${task.priority}</span>
-                        ${dueDate ? `<span class="due-date">Due: ${dueDate}</span>` : ''}
-                        ${isOverdue ? '<span class="overdue-label">Overdue!</span>' : ''}
+                        <span class="priority-badge priority-${task.priority}">
+                            ${priorityIcons[task.priority]} ${task.priority.toUpperCase()}
+                        </span>
+                        ${dueDate ? `<span class="due-date"><i class="fas fa-calendar-alt"></i> ${dueDate}</span>` : ''}
+                        ${isOverdue ? '<span class="overdue-label"><i class="fas fa-exclamation-triangle"></i> Overdue!</span>' : ''}
                     </div>
                 </div>
                 <div class="task-actions">
-                    <button class="delete-btn" data-task-id="${task.id}">Delete</button>
+                    <button class="delete-btn" data-task-id="${task.id}" title="Delete task">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
             </div>
         `;
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     updateStats() {

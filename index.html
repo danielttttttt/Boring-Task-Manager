@@ -3,32 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Task Manager</title>
+    <title>TaskFlow Pro - Professional Task Manager</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📝 Task Manager</h1>
-            <p>Stay organized and productive</p>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <h1>TaskFlow Pro</h1>
+                </div>
+                <p class="tagline">Professional task management made simple</p>
+            </div>
         </header>
 
         <main>
             <!-- Add Task Section -->
             <section class="add-task">
-                <h2>Add New Task</h2>
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Create New Task</h2>
+                    <p>Add a new task to your workflow</p>
+                </div>
                 <form id="taskForm">
                     <div class="form-group">
-                        <input type="text" id="taskInput" placeholder="Enter your task..." required>
-                        <button type="submit">Add Task</button>
+                        <div class="input-wrapper">
+                            <i class="fas fa-edit input-icon"></i>
+                            <input type="text" id="taskInput" placeholder="What needs to be done?" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Task</span>
+                        </button>
                     </div>
                     <div class="form-options">
-                        <select id="prioritySelect">
-                            <option value="low">Low Priority</option>
-                            <option value="medium" selected>Medium Priority</option>
-                            <option value="high">High Priority</option>
-                        </select>
-                        <input type="date" id="dueDateInput">
+                        <div class="select-wrapper">
+                            <i class="fas fa-flag select-icon"></i>
+                            <select id="prioritySelect">
+                                <option value="low">🟢 Low Priority</option>
+                                <option value="medium" selected>🟡 Medium Priority</option>
+                                <option value="high">🔴 High Priority</option>
+                            </select>
+                        </div>
+                        <div class="date-wrapper">
+                            <i class="fas fa-calendar-alt date-icon"></i>
+                            <input type="date" id="dueDateInput" placeholder="Due date">
+                        </div>
                     </div>
                 </form>
             </section>
@@ -36,25 +58,57 @@
             <!-- Task Stats -->
             <section class="stats">
                 <div class="stat-item">
-                    <span class="stat-number" id="totalTasks">0</span>
-                    <span class="stat-label">Total</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-list-ul"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="totalTasks">0</span>
+                        <span class="stat-label">Total Tasks</span>
+                    </div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="completedTasks">0</span>
-                    <span class="stat-label">Completed</span>
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="completedTasks">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="pendingTasks">0</span>
-                    <span class="stat-label">Pending</span>
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number" id="pendingTasks">0</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
                 </div>
             </section>
 
             <!-- Filter Section -->
             <section class="filters">
-                <button class="filter-btn active" data-filter="all">All Tasks</button>
-                <button class="filter-btn" data-filter="pending">Pending</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
-                <button class="filter-btn" data-filter="high">High Priority</button>
+                <div class="filter-header">
+                    <h3><i class="fas fa-filter"></i> Filter Tasks</h3>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-th-list"></i>
+                        <span>All Tasks</span>
+                    </button>
+                    <button class="filter-btn" data-filter="pending">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span>Pending</span>
+                    </button>
+                    <button class="filter-btn" data-filter="completed">
+                        <i class="fas fa-check-double"></i>
+                        <span>Completed</span>
+                    </button>
+                    <button class="filter-btn" data-filter="high">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>High Priority</span>
+                    </button>
+                </div>
             </section>
 
             <!-- Task List -->
@@ -63,7 +117,15 @@
                     <!-- Tasks will be added here dynamically -->
                 </div>
                 <div id="emptyMessage" class="empty-message">
-                    <p>No tasks yet. Add your first task above!</p>
+                    <div class="empty-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>No tasks found</h3>
+                    <p>Create your first task to get started with your productivity journey!</p>
+                    <button class="btn-secondary" onclick="document.getElementById('taskInput').focus()">
+                        <i class="fas fa-plus"></i>
+                        Add Your First Task
+                    </button>
                 </div>
             </section>
         </main>
