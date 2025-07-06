@@ -21,20 +21,28 @@
                     </div>
                     <div id="notificationPanel" class="notification-panel">
                         <div class="notification-header">
-                            <h3>Task Notifications</h3>
+                            <h3>Smart Notifications</h3>
                             <div class="notification-controls">
-                                <button id="notificationSettings" class="settings-btn" title="Notification Settings">⚙️</button>
-                                <button id="clearAllNotifications" class="clear-btn" title="Clear All">🗑️</button>
+                                <button id="notificationSettings" class="settings-btn" title="Settings">⚙️</button>
+                                <button id="productivityInsights" class="insights-btn" title="Productivity Insights">📊</button>
                                 <button id="closeNotifications" class="close-btn">×</button>
                             </div>
                         </div>
                         <div class="notification-tabs">
-                            <button class="tab-btn active" data-tab="active">Active</button>
-                            <button class="tab-btn" data-tab="snoozed">Snoozed</button>
-                            <button class="tab-btn" data-tab="history">History</button>
+                            <button class="tab-btn active" data-tab="urgent">Urgent</button>
+                            <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+                            <button class="tab-btn" data-tab="insights">Insights</button>
                         </div>
-                        <div id="notificationList" class="notification-list">
-                            <p class="no-notifications">No notifications</p>
+                        <div id="notificationContent" class="notification-content">
+                            <div id="urgentTab" class="tab-content active">
+                                <div id="urgentList" class="notification-list"></div>
+                            </div>
+                            <div id="upcomingTab" class="tab-content">
+                                <div id="upcomingList" class="notification-list"></div>
+                            </div>
+                            <div id="insightsTab" class="tab-content">
+                                <div id="productivityInsightsList" class="insights-content"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,6 +190,77 @@
                 </div>
             </section>
         </main>
+
+        <!-- Notification Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Notification Settings</h3>
+                    <button id="closeSettings" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label class="setting-label">
+                            <input type="checkbox" id="enableSounds" checked>
+                            <span class="checkmark"></span>
+                            Enable notification sounds
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <label class="setting-label">
+                            <input type="checkbox" id="enableBrowserNotifications" checked>
+                            <span class="checkmark"></span>
+                            Enable browser notifications
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <label for="reminderTime">Reminder time for due tasks:</label>
+                        <select id="reminderTime">
+                            <option value="0">On due date</option>
+                            <option value="1" selected>1 day before</option>
+                            <option value="2">2 days before</option>
+                            <option value="3">3 days before</option>
+                            <option value="7">1 week before</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label for="workingHours">Working hours notifications:</label>
+                        <div class="time-range">
+                            <input type="time" id="workStartTime" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="workEndTime" value="17:00">
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <label class="setting-label">
+                            <input type="checkbox" id="weekendNotifications">
+                            <span class="checkmark"></span>
+                            Enable weekend notifications
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+                    <button id="resetSettings" class="btn btn-secondary">Reset to Default</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smart Notification Toast -->
+        <div id="notificationToast" class="notification-toast">
+            <div class="toast-content">
+                <div class="toast-icon">🔔</div>
+                <div class="toast-message">
+                    <div class="toast-title"></div>
+                    <div class="toast-text"></div>
+                </div>
+                <div class="toast-actions">
+                    <button class="toast-btn complete-btn">✓ Complete</button>
+                    <button class="toast-btn snooze-btn">💤 Snooze</button>
+                    <button class="toast-btn close-toast">×</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
